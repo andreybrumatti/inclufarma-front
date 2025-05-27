@@ -32,7 +32,7 @@ export default function Header() {
     };
 
     return (
-        <header className="flex items-center justify-between shadow-md w-full h-28 px-4 md:px-8 lg:px-36 bg-[#ffff]">
+        <header className="flex items-center justify-between shadow-lg w-full h-28 px-4 md:px-8 lg:px-36 bg-[#ffff] sticky">
             <div className="flex flex-row items-center">
                 <Link className='flex flex-row items-center focus:border-2 focus:border-[#1b998b]' href="/">
                     <h1 className="text-3xl font-bold text-[#1b998b] flex items-center">

@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { ProviderGoogle } from "@/providers/provider-google";
+import { ProviderSession } from "@/providers/provider-session";
 
 const geistSans = Lato({
   subsets: ["latin"],
@@ -22,12 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} antialiased`}
-      >
-        <ProviderGoogle>
-          {children}
-        </ProviderGoogle>
+      <body className={`${geistSans.variable} antialiased`}>
+        <ProviderSession>
+          <ProviderGoogle>
+            {children}</ProviderGoogle>
+        </ProviderSession>
       </body>
     </html>
   );

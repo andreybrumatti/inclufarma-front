@@ -77,7 +77,7 @@ export default function Login() {
 
                 <CardHeader className="flex flex-col justify-center items-center space-y-1">
 
-                    <CardTitle className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-700">Sign in Account</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-700">Faça Login</CardTitle>
 
                     <button
                         type="button"
