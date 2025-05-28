@@ -1,3 +1,5 @@
+"use client";
+
 import CardCategorias from "@/components/CardCategorias";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";

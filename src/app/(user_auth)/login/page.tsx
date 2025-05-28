@@ -34,7 +34,6 @@ type FormRegister = z.infer<typeof formRegisterSchema>
 
 
 export default function Login() {
-
     const router = useRouter();
 
     const registerUser: SubmitHandler<FormRegister> = async (data: FormRegister) => {
@@ -43,6 +42,7 @@ export default function Login() {
                 redirect: false,
                 email: data.email,
                 senha: data.senha,
+                callbackUrl: "/"
             });
 
             if (res?.error) {
@@ -51,13 +51,12 @@ export default function Login() {
             }
 
             if (res?.ok) {
-                toast.success("Usuário logado com sucesso!");
-                router.push("/");
+                // window.location para forçar recarregamento completo da página e atualizar o estado da sessão
+                // Isso é necessário porque o Next.js pode não atualizar o estado da sessão imediatamente após o login
+                window.location.href = res.url || "/";
             }
-
         } catch (error) {
-            console.error("Erro no login:", error);
-            toast.error("Erro ao conectar com o servidor.");
+            toast.error("Erro durante o login");
         }
     };
 

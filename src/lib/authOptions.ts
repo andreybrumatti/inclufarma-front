@@ -1,9 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { NextAuthOptions,  Session  } from "next-auth";
-import type { JWT } from "next-auth/jwt";
-import { Usuario } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,10 +36,11 @@ export const authOptions: NextAuthOptions = {
 
         const user = await response.json();
 
+        //Precisa ter todos os campos do User
         return {
           id: user.id,
           email: user.email,
-          name: user.nome,
+          nome: user.nome,
           token: user.token, // <- Aqui é o token JWT
           role: user.role,
         };
@@ -50,13 +49,13 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/signin",
+    signIn: "/login",
   },
 
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: Usuario }) {
+    async jwt({ token, user }) { 
       if (user) {
-        token.accessToken =  token;
+        token.accessToken = user.token;
         token.role = user.role;
         token.id = user.id;
         token.nome = user.nome;
@@ -65,14 +64,21 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    async session({ session, token }: { session: Session; token: JWT }) {
-      session.user.token = token.accessToken as string;
-      session.user.userData = {
-        id: token.id as string,
-        nome: token.nome as string,
-        email: token.email as string,
-        role: token.role as string,
-      };
+    async session({ session, token }) { // Retorna os dados do usuário na sessão
+      // Garante que todos os dados estão sincronizados
+      if (token) {
+        session.user = {
+          ...session.user,
+          token: token.accessToken as string,
+          userData: {
+            id: token.id as string,
+            nome: token.nome as string,
+            email: token.email as string,
+            role: token.role as string,
+            token: token.accessToken as string,
+          }
+        };
+      }
       return session;
     },
   },
