@@ -38,12 +38,12 @@ export function CarProducts() {
 
             <SheetContent>
                 <SheetHeader>
-                    <SheetTitle className="text-lg">Products Car</SheetTitle>
+                    <SheetTitle className="text-lg">Carrinho de Produtos</SheetTitle>
 
                     <SheetDescription asChild>
                         {cart.length === 0 ? (
                             <p className="text-sm text-muted-foreground">
-                                No products in the cart!
+                                Não há produtos no carrinho!
                             </p>
                         ) : (
                             <div className="flex flex-col gap-4 mt-6 max-h-[calc(100vh-180px)] overflow-y-auto p-2">

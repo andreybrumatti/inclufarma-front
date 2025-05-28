@@ -1,11 +1,10 @@
+
+
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 import { ProviderGoogle } from "@/providers/provider-google";
 import { ProviderSession } from "@/providers/provider-session";
-import { Session } from "inspector/promises";
-import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Lato({

@@ -1,12 +1,17 @@
 import { useState } from "react"
 import { api } from "@/server/api";
 
+type Categoria = {
+    id: String;
+    nome: string;
+}
+
 export const categoriaHook = () => {
-    const [categorias, setCategorias] = useState([]);
+    const [categorias, setCategorias] = useState<Categoria[]>([]);
 
     const listarCategorias = async () => {
         try {
-            const response = await api.get("/api/categoria/listarCategoria");
+            const response = await api.get("/categoria/listarCategoria");
             if(response.data){
                 setCategorias(response.data);
             }

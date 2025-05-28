@@ -102,7 +102,7 @@ export default function Login() {
 
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="senha" className="text-zinc-500">Senha</Label>
-                            <Input type="password" className="text-zinc-500 border-zinc-300 input-custom selection:bg-blue-400" {...register("senha")} />
+                            <Input type="password" autoComplete="new-password" className="text-zinc-500 border-zinc-300 input-custom selection:bg-blue-400" {...register("senha")} />
                             {errors.senha && <span className="text-red-500 text-sm">{errors.senha.message}</span>}
                         </div>
 
