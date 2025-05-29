@@ -16,24 +16,30 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { data: session } = useSession();
   console.log("Session:", session);
 
+  const router = useRouter();
+
+  const handleClickEndereco = () => {
+    router.push("/endereco");
+  };
+
   return (
-    
-    <header
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between shadow-lg w-full h-28 px-4 md:px-8 lg:px-36 bg-[#ffff]"
-    >
+    <header className="flex items-center justify-between shadow-lg w-full h-28 px-4 md:px-8 lg:px-16 bg-white">
       <div className="flex flex-row items-center">
         <Link
           className="flex flex-row items-center focus:border-2 p-2 focus:border-[#1b998b]"
@@ -48,40 +54,44 @@ export default function Header() {
 
       <div className="flex gap-2 md:gap-14 items-center justify-center">
         {session?.user.token ? (
-          <AlertDialog>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <AlertDialogTrigger asChild>
-                    <button className="text-3xl focus:border-2 focus:border-[#1b998b] flex flex-col items-center text-center">
-                      <span className="text-3xl">👤</span>
-                      <span className="text-sm">
-                        {session.user.userData?.nome}
-                      </span>
-                    </button>
-                  </AlertDialogTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>SAIR DA CONTA</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="flex flex-col items-center text-center cursor-pointer">
+                <span className="text-3xl">👤</span>
+                <span className="text-sm">{session.user.userData?.nome}</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
 
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Sair da Conta</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Deseja realmente sair?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => signOut({ callbackUrl: "/login" })}>
-                  Sair
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+              <DropdownMenuSeparator />
+
+              {session?.user.userData.role === "USER" && (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleClickEndereco}
+                >
+                  Endereços
+                </DropdownMenuItem>
+              )}
+
+              {session?.user.userData.role === "ADMIN" && (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => router.push("/produtos")}
+                >
+                  Produtos
+                </DropdownMenuItem>
+              )}
+
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => signOut({ callbackUrl: "/login" })}
+              >
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <div>
             <Link

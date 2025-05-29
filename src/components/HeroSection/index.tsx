@@ -1,6 +1,6 @@
 export default function HeroSection() {
   return (
-    <div className="flex flex-col items-center justify-center h-auto w-full pt-40 pb-14 bg-[#a0d2db] gap-8">
+    <div className="flex flex-col items-center justify-center h-auto w-full pt-14 pb-14 bg-[#a0d2db] gap-8">
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-5xl text-white">Farmácia Inclusiva</h1>
 

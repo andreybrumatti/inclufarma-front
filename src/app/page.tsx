@@ -7,11 +7,13 @@ import VLibras from "@djpfs/react-vlibras";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center w-full">
-      <VLibras  forceOnload={true}/>
+    <>
       <Header />
-      <HeroSection />
-      <SectionsMedicamentos />
-    </main>
+      <main className="flex flex-col items-center w-full">
+        <VLibras forceOnload={true} />
+        <HeroSection />
+        <SectionsMedicamentos />
+      </main>
+    </>
   );
 }
