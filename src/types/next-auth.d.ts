@@ -21,6 +21,7 @@ declare module "next-auth" {
   interface User extends DefaultUser { // Extende o tipo padrão de usuário do NextAuth
     id: string;
     nome: string;
+    name: string; // Nome do usuário
     email: string;
     role: string;
     token: string; // JWT token

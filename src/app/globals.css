@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+#vlibras {
+  position: fixed !important;
+  bottom: 16px !important;
+  right: 16px !important;
+  z-index: 9999 !important;
+  display: block !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -30,6 +38,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem
   }
+
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -62,6 +71,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

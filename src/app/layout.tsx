@@ -3,7 +3,6 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { ProviderGoogle } from "@/providers/provider-google";
 import { ProviderSession } from "@/providers/provider-session";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -27,10 +26,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} antialiased`}>
           <ProviderSession>
-            <ProviderGoogle>
               {children}
               <Toaster />
-            </ProviderGoogle>
           </ProviderSession>
       </body>
     </html>

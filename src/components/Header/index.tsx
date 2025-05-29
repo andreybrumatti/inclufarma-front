@@ -15,6 +15,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -22,11 +29,8 @@ export default function Header() {
   const { data: session } = useSession();
   console.log("Session:", session);
 
-  const signoutWithGoogle = async () => {
-    await signOut({ callbackUrl: "/login" });
-  };
-
   return (
+    
     <header
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between shadow-lg w-full h-28 px-4 md:px-8 lg:px-36 bg-[#ffff]"
     >
@@ -43,20 +47,26 @@ export default function Header() {
       </div>
 
       <div className="flex gap-2 md:gap-14 items-center justify-center">
-        {session?.user ? (
+        {session?.user.token ? (
           <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <button className="text-3xl focus:border-2 focus:border-[#1b998b] flex flex-col items-center text-center">
-                <span className="text-3xl">👤</span>
-                {/* Se tiver token, pega nome em userData; senão pega nome direto em user,
-                                 que vem do NextAuth, Google*/}
-                <span className="text-sm">
-                  {session.user.token
-                    ? session.user.userData?.nome
-                    : session.user.name}
-                </span>
-              </button>
-            </AlertDialogTrigger>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AlertDialogTrigger asChild>
+                    <button className="text-3xl focus:border-2 focus:border-[#1b998b] flex flex-col items-center text-center">
+                      <span className="text-3xl">👤</span>
+                      <span className="text-sm">
+                        {session.user.userData?.nome}
+                      </span>
+                    </button>
+                  </AlertDialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>SAIR DA CONTA</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Sair da Conta</AlertDialogTitle>
@@ -66,7 +76,7 @@ export default function Header() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={signoutWithGoogle}>
+                <AlertDialogAction onClick={() => signOut({ callbackUrl: "/login" })}>
                   Sair
                 </AlertDialogAction>
               </AlertDialogFooter>

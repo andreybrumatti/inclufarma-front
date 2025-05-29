@@ -44,10 +44,6 @@ export default function Register() {
         mode: "onSubmit"
     })
 
-    const loginWithGoogle = async () => {
-            await signIn("google", { callbackUrl: "/" });
-        };
-
     const registerUser: SubmitHandler<FormRegister> = async (data: FormRegister) => {
         try {
             const response = await fetch("/api/auth/register", {
@@ -73,20 +69,8 @@ export default function Register() {
         <div className="flex flex-col w-full h-screen items-center justify-center">
             <Card className="w-80 sm:w-96 shadow-sm shadow-slate-400">
 
-                <CardHeader className="flex flex-col justify-center items-center space-y-1">
-
-                    <CardTitle className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-700">Criar conta</CardTitle>
-                    
-                    <button onClick={loginWithGoogle} className="flex items-center justify-center border-2 border-zinc-300 rounded-full w-10 h-10 cursor-pointer">
-                        <FaGooglePlusG color="#84878b" className="w-6 h-6" />
-                    </button>
-
-                    <CardDescription className="text-zinc-500">ou cadastra-se com e-mail</CardDescription>
-
-                </CardHeader>
-
                 <CardContent className="grid gap-4">
-
+                    
                     <form onSubmit={handleSubmit(registerUser)} className="flex flex-col gap-4 max-w-md md:max-w-lg">
 
                         <div className="flex flex-col gap-2">

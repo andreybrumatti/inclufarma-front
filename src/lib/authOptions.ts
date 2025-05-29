@@ -1,14 +1,9 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
 
     CredentialsProvider({
       name: "credentials",
@@ -38,9 +33,10 @@ export const authOptions: NextAuthOptions = {
 
         //Precisa ter todos os campos do User
         return {
-          id: user.id,
+          id: user.email,
           email: user.email,
           nome: user.nome,
+          name: user.nome, // <- Nome do usuário
           token: user.token, // <- Aqui é o token JWT
           role: user.role,
         };
@@ -52,8 +48,26 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
 
+  session: {
+    strategy: "jwt", // Use JWT ao invés de database
+    maxAge: 24 * 60 * 60, // 1 dia
+  },
+  
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: false,
+      }
+    }
+  }
+  ,
+
   callbacks: {
-    async jwt({ token, user }) { 
+    async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.token;
         token.role = user.role;
@@ -65,14 +79,14 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) { // Retorna os dados do usuário na sessão
-      // Garante que todos os dados estão sincronizados
-      if (token) {
+      if (token) { 
         session.user = {
           ...session.user,
           token: token.accessToken as string,
           userData: {
             id: token.id as string,
             nome: token.nome as string,
+            name: token.nome as string, // Nome do usuário
             email: token.email as string,
             role: token.role as string,
             token: token.accessToken as string,

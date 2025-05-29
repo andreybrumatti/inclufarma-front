@@ -11,6 +11,13 @@ import {
 import { categoriaHook } from "@/hooks/categorias/categoria";
 import { medicamentoHook } from "@/hooks/medicamentos/medicamento";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { useEffect } from "react";
 import { animate } from "framer-motion";
 
@@ -61,16 +68,28 @@ export default function SectionsMedicamentos() {
         {categorias.map((categoria) => {
           const emoji = emojiPorCategoria[categoria.nome];
           return (
-            <Card
-              key={categoria.id.toString()}
-              onClick={() => handleScroll(categoria.id.toString())}
-              className="bg-white shadow-lg hover:scale-110 duration-200 flex flex-col items-center justify-center w-44 h-40"
-            >
-              <div className="text-4xl">{emoji}</div>
-              <div className="mt-3 text-center text-lg font-semibold">
-                {categoria.nome}
-              </div>
-            </Card>
+
+            <TooltipProvider key={categoria.id.toString()}>
+              <Tooltip>
+
+                <TooltipTrigger>
+                  <Card
+                    key={categoria.id.toString()}
+                    onClick={() => handleScroll(categoria.id.toString())}
+                    className="bg-white shadow-lg hover:scale-110 duration-200 flex flex-col items-center justify-center w-44 h-40"
+                  >
+                    <div className="text-4xl">{emoji}</div>
+                    <div className="mt-3 text-center text-lg font-semibold">
+                      {categoria.nome}
+                    </div>
+                  </Card>
+                </TooltipTrigger>
+
+                <TooltipContent>
+                  <p>{categoria.nome}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           );
         })}
       </div>
@@ -87,20 +106,35 @@ export default function SectionsMedicamentos() {
               {medicamentos
                 .filter((med) => med.categoria.id === categoria.id)
                 .map((medicamento) => (
-                  <Card
-                    key={medicamento.id?.toString()}
-                    className="p-4 bg-white shadow-md hover:scale-105 duration-200"
-                  >
-                    <CardHeader>
-                      <CardTitle>{medicamento.nome}</CardTitle>
-                      <CardDescription>{medicamento.descricao}</CardDescription>
 
-                      {/* <img src={String(medicamento.imagem)} alt={String(medicamento.nome)} /> */}
-                    </CardHeader>
-                    <CardContent>
-                      <p>💰 Preço: R$ {medicamento.preco.toFixed(2)}</p>
-                    </CardContent>
-                  </Card>
+                  <TooltipProvider key={medicamento.id?.toString()}>
+                    <Tooltip>
+
+                      <TooltipTrigger>
+
+                        <Card
+                          key={medicamento.id?.toString()}
+                          className="p-4 bg-white shadow-md hover:scale-105 duration-200"
+                        >
+                          <CardHeader>
+                            <CardTitle>{medicamento.nome}</CardTitle>
+                            <CardDescription>{medicamento.descricao}</CardDescription>
+
+                          </CardHeader>
+                          <CardContent>
+                            <p>💰 Preço: R$ {medicamento.preco.toFixed(2)}</p>
+                          </CardContent>
+                        </Card>
+
+                      </TooltipTrigger>
+
+                      <TooltipContent>
+                        <p>{medicamento.nome}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+
                 ))}
             </div>
           </section>
